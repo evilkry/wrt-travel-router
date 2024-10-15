@@ -3,31 +3,35 @@ These configuration files are a base setup to create a travel wireless router th
 
 It is important to take note of the physical port mappings on the GL-iNet ATX-1800 Wireless Router. This is how the internal logic of ports on the CPU-based software router routes to the physical ports and ethernet configurations.
 
+___
 ####
 WAN = eth0  
 Port 3 = LAN2 = eth1
 Port 4 = LAN1 = eth2
 ####
+____
 
 For this setup, WAN (eth0) is the physical ethernet you can connect to ANY IP-based network to get internet.
-LAN1 is the trunk port that will only work if plugged into another switch trunk port that is VLAN aware in this case of VLAN2 and VLAN4.
+LAN1 is the trunk port that will only work if plugged into another switch trunk port that is VLAN aware and in this case of VLAN2 and VLAN4.
 
 ###
+___
 VLAN4 - Control Network - 192.168.8.15/24
 VLAN2 - NDI Network - 10.155.150.15/24
 
 LAN2 Port on the router is the default backdoor should you need to gain quick access into the Router that is on a non-vlan subnet of 192.168.9.1/24
 
-
+____
 ####
 /etc/firewall.user
-Thsi file is a needed script that needs to run needed iptable rules to run and stay perssitent on every reboot:
+This file is a needed script that needs to run needed iptable rules to run and stay persistent on every reboot:
 ####
+____
 
 
 
 
-
+_____
 #####  Base ifconfig of the network interfaces:
 
 br-vlan4  Link encap:Ethernet  HWaddr AA:E0:C3:75:20:AE  
@@ -94,5 +98,5 @@ wlan1     Link encap:Ethernet  HWaddr 0E:30:A3:AF:B0:60
           TX packets:1052 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:4096 
           RX bytes:0 (0.0 B)  TX bytes:85452 (83.4 KiB)
-
-### End of ifconfig
+____
+End of ifconfig
