@@ -1,0 +1,6 @@
+# Forward traffic from VLANs
+iptables -A FORWARD -i eth2.2 -j ACCEPT
+iptables -A FORWARD -i eth2.4 -j ACCEPT
+
+# Apply NAT for all outgoing traffic on WAN interface
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
