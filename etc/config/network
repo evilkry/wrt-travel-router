@@ -1,0 +1,128 @@
+
+config interface 'loopback'
+        option device 'lo'
+        option proto 'static'
+        option ipaddr '127.0.0.1'
+        option netmask '255.0.0.0'
+
+config globals 'globals'
+        option ula_prefix 'fd85:13c4:080b::/48'
+
+config device
+        option name 'br-lan'
+        option type 'bridge'
+        list ports 'eth1'
+
+config device
+        option name 'eth1'
+        option macaddr '94:83:c4:45:39:45'
+
+config device
+        option name 'eth2.2'
+        option type '8021q'
+        option ifname 'eth2'
+        option vid '2'
+
+config interface 'vlan2'
+        option device 'eth2.2'
+        option proto 'static'
+        option ipaddr '10.155.150.15'
+        option netmask '255.255.255.0'
+        option delegate '0'
+
+config device
+        option name 'br-vlan4'
+        option type 'bridge'
+        list ports 'eth2.4'
+        list ports 'wlan0'
+        list ports 'wlan1'
+
+config interface 'vlan4'                       
+        option device 'br-vlan4'               
+        option proto 'static'                  
+        option ipaddr '192.168.8.15'           
+        option netmask '255.255.255.0'         
+        option delegate '0'                    
+                                          
+config device                             
+        option name 'eth0'                
+        option macaddr '94:83:c4:45:39:44'
+                                          
+config interface 'wan'                    
+        option device 'eth0'              
+        option proto 'dhcp'               
+        option ipv6 '0'                   
+        option metric '10'                
+                                          
+config switch                             
+        option name 'switch0'             
+        option reset '1'                  
+        option enable_vlan '1'            
+                                          
+config switch_vlan                        
+        option device 'switch0'           
+        option vlan '2'                   
+        option vid '2'                    
+        option ports '2t'                 
+                                          
+config switch_vlan                        
+        option device 'switch0'           
+        option vlan '4'                   
+        option vid '4'                    
+        option ports '2t'                 
+                                          
+config interface 'wwan6'                  
+        option device '@wwan'             
+        option proto 'dhcpv6'             
+        option disabled '1' 
+
+config interface 'guest'                       
+        option force_link '1'                  
+        option type 'bridge'                   
+        option proto 'static'                  
+        option ipaddr '192.168.9.1'            
+        option netmask '255.255.255.0'    
+        option ip6assign '60'             
+        option multicast_querier '1'      
+        option igmp_snooping '0'          
+        option isolate '0'                
+        option bridge_empty '1'           
+        option disabled '1'               
+                                          
+config interface 'wwan'                   
+        option proto 'dhcp'               
+        option classlessroute '0'         
+        option metric '20'                
+                                          
+config interface 'modem_1_1_2_6'          
+        option proto 'dhcpv6'             
+        option disabled '1'               
+        option device '@modem_1_1_2'      
+                                          
+config rule 'policy_direct_rt'            
+        option lookup 'main'              
+        option suppress_prefixlength '0'  
+        option priority '1100'            
+                                          
+config rule 'policy_default_rt_vpn'       
+        option mark '0x8000/0xc000'       
+        option lookup '8000'              
+        option priority '1101'            
+        option invert '1'                 
+                                          
+config rule6 'policy_direct_rt6'          
+        option lookup 'main'              
+        option suppress_prefixlength '0'  
+        option priority '1100'          
+
+config rule6 'policy_default_rt_vpn6'     
+        option mark '0x8000/0xc000'       
+        option lookup '8000'              
+        option priority '1101'            
+        option invert '1'                 
+                                          
+config rule 'policy_default_rt_vpn_ts'    
+        option lookup 'main'              
+        option priority '1099'            
+        option mark '0x80000/0xc0000'     
+        option invert '0'  
